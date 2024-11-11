@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Advanced Media Player Enhancement for iOS
+// @name         Prevent Overlapping Objects & Use Native iOS Media Player
 // @namespace    https://tianpurba.com
-// @version      2.1
-// @description  Mencegah objek menutupi pemutar media dan memastikan video diputar dengan pemutar native iOS. Juga menghapus iklan yang mengganggu.
+// @version      1.1
+// @description  Mencegah objek lain menutupi pemutar media dan memastikan video diputar dengan pemutar native iOS.
 // @author       Tian | tianpurba.com
 // @match        *://*/*
 // @grant        none
@@ -52,51 +52,6 @@
     }
 
     /**
-     * Menghapus atau menyembunyikan elemen iklan berdasarkan pola umum
-     */
-    function removeAds() {
-        // Daftar selector umum untuk iklan
-        const adSelectors = [
-            '[id*="ad"]',
-            '[class*="ad"]',
-            '[id*="ads"]',
-            '[class*="ads"]',
-            '[id*="banner"]',
-            '[class*="banner"]',
-            '[id*="promo"]',
-            '[class*="promo"]',
-            '.advertisement',
-            '.adsbygoogle',
-            '.ad-container',
-            '.ad-slot',
-            '.ad-wrapper',
-            '.sponsored',
-            'iframe[src*="ads"]',
-            'iframe[src*="doubleclick"]'
-        ];
-
-        adSelectors.forEach(selector => {
-            const ads = document.querySelectorAll(selector);
-            ads.forEach(ad => {
-                ad.remove();
-            });
-        });
-
-        // Menambahkan aturan CSS tambahan untuk menyembunyikan iklan secara lebih efektif
-        const style = document.createElement('style');
-        style.type = 'text/css';
-        style.innerHTML = `
-            [id*="ad"], [class*="ad"], [id*="ads"], [class*="ads"],
-            [id*="banner"], [class*="banner"], [id*="promo"], [class*="promo"],
-            .advertisement, .adsbygoogle, .ad-container, .ad-slot, .ad-wrapper,
-            .sponsored, iframe[src*="ads"], iframe[src*="doubleclick"] {
-                display: none !important;
-            }
-        `;
-        document.head.appendChild(style);
-    }
-
-    /**
      * Mengatur semua video di halaman
      */
     function processVideos() {
@@ -112,7 +67,6 @@
     function init() {
         processVideos();
         bringMediaToFront();
-        removeAds();
     }
 
     /**
@@ -128,7 +82,6 @@
         if (shouldRun) {
             processVideos();
             bringMediaToFront();
-            removeAds();
         }
     });
 
